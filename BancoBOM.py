@@ -7,11 +7,12 @@ msgmenu = """
 [bah] Sair
 """
 class Usuario:
-    def __init__(self,name,saldo,key,extrato):
+    def __init__(self,name,saldo,key,extrato,numerosaque):
         self.name = name
         self.saldo = saldo
         self.key = key
         self.extrato = extrato
+        self.numerosaque = numerosaque
 
     def deposito(self,quantia):
         if quantia > 0:
@@ -38,14 +39,15 @@ class Usuario:
         if self.saldo >= quantia:
             self.saldo -= quantia
             self.extrato += f"Saque efetuado de: {quantia}\n"
+            self.numerosaque += 1
             print(self.extrato)
         else:
             print("Saldo insuficiente")
 
 
 usuarios = (
-Usuario("Gabriel",100,123,""),
-Usuario("Mick",0,943,"")
+Usuario("Gabriel",100,123,"",0),
+Usuario("Mick",0,943,"",0)
 )
 
 def obteruser(nome):
@@ -64,17 +66,20 @@ while True:
         
         if opcao == "d":
             menu = "Digite o valor do deposito: "
-            valor =  int(input(menu))
+            valor =  float(input(menu))
             if valor > 0:
                 login.deposito(valor)
         elif opcao == "s":
             menu = "Digite o valor do saque: "
-            valor =  int(input(menu))
-            if valor > 0:
-                login.saque(valor)
+            valor =  float(input(menu))
+            if valor > 0:   
+                if login.numerosaque < 3:
+                    login.saque(valor)
+                else:
+                    print("Numero de saques diarios excedido")
         elif opcao == "t":
             menu = "Digite o valor da transferencia: "
-            valor =  int(input(menu))
+            valor =  float(input(menu))
             menu = "Digite a chave do destinatario: "
             chave = int(input(menu))
             if valor > 0:
