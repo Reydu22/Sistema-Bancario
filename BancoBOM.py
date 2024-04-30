@@ -47,7 +47,9 @@ def obteruser(nome):
 gabriel = obteruser("Gabriel")
 mick = obteruser("Mick")
 
-
+def obterextrato(name):
+    for numerado in name.extrato:
+        print(numerado)
 
 
 
@@ -56,7 +58,7 @@ Antes""")
 print(f"Saldo de Gabriel: {gabriel.saldo}")
 print(f"Saldo de mick: {mick.saldo}" )
 gabriel.deposito(100)
-gabriel.transferencia(100,943)
+gabriel.transferencia(50,943)
 print(""" 
 Depois""")
 print(f"Saldo de Gabriel: {gabriel.saldo}")
