@@ -40,7 +40,6 @@ class Usuario:
             self.saldo -= quantia
             self.extrato += f"Saque efetuado de: {quantia}\n"
             self.numerosaque += 1
-            print(self.extrato)
         else:
             print("Saldo insuficiente")
 
