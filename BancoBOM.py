@@ -1,3 +1,11 @@
+login = None
+msgmenu = """ 
+[d] Depositar
+[s] Sacar 
+[t] Transferir
+[e] Extrato
+[bah] Sair
+"""
 class Usuario:
     def __init__(self,name,saldo,key,extrato):
         self.name = name
@@ -8,7 +16,7 @@ class Usuario:
     def deposito(self,quantia):
         if quantia > 0:
             self.saldo += quantia
-            self.extrato.append(f"Depósitado: {quantia}")
+            self.extrato += f"Depósitado: {quantia}\n"
         else:
             print("Quantia deve ser maior que ZERO")
 
@@ -19,7 +27,7 @@ class Usuario:
                 if usuario.key == destino:
                     self.saldo -= quantia
                     usuario.saldo += quantia
-                    self.extrato.append(f"Transferido: {quantia} para {usuario.name}")
+                    self.extrato += f"Transferido: {quantia} para {usuario.name}\n"
         elif quantia <= 0:
             print("Quantia deve ser maior que ZERO")
         else:
@@ -29,14 +37,15 @@ class Usuario:
     def saque(self,quantia):
         if self.saldo >= quantia:
             self.saldo -= quantia
-            self.extrato.append(f"Saque efetuado de: {quantia}")
+            self.extrato += f"Saque efetuado de: {quantia}\n"
+            print(self.extrato)
         else:
             print("Saldo insuficiente")
 
 
 usuarios = (
-Usuario("Gabriel",100,123,[]),
-Usuario("Mick",0,943,[])
+Usuario("Gabriel",100,123,""),
+Usuario("Mick",0,943,"")
 )
 
 def obteruser(nome):
@@ -47,25 +56,33 @@ def obteruser(nome):
 gabriel = obteruser("Gabriel")
 mick = obteruser("Mick")
 
-def obterextrato(name):
-    for numerado in name.extrato:
-        print(numerado)
 
-
-
-print(""" 
-Antes""")
-print(f"Saldo de Gabriel: {gabriel.saldo}")
-print(f"Saldo de mick: {mick.saldo}" )
-gabriel.deposito(100)
-gabriel.transferencia(50,943)
-print(""" 
-Depois""")
-print(f"Saldo de Gabriel: {gabriel.saldo}")
-print(f"Saldo de mick: {mick.saldo}" )
-mick.saque(10)
-print(""" 
-Depois saque""")
-print(f"Saldo de Gabriel: {gabriel.saldo}")
-print(f"Saldo de mick: {mick.saldo}" )
-print(gabriel.extrato)
+while True:
+    if login != None:
+        menu = msgmenu
+        opcao = input(menu)
+        
+        if opcao == "d":
+            menu = "Digite o valor do deposito: "
+            valor =  int(input(menu))
+            if valor > 0:
+                login.deposito(valor)
+        elif opcao == "s":
+            menu = "Digite o valor do saque: "
+            valor =  int(input(menu))
+            if valor > 0:
+                login.saque(valor)
+        elif opcao == "t":
+            menu = "Digite o valor da transferencia: "
+            valor =  int(input(menu))
+            menu = "Digite a chave do destinatario: "
+            chave = int(input(menu))
+            if valor > 0:
+                login.transferencia(valor,chave)
+        elif opcao == "e":
+           print(login.extrato)
+        elif opcao == "bah":
+            break
+    else:
+        menu = "Digite seu Nome: "
+        login = obteruser(input(menu))
