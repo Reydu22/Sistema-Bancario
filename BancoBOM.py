@@ -17,7 +17,7 @@ class Usuario:
 
 usuarios = [
 Usuario("Gabriel",0,123),
-Usuario("Miley",0,943)
+Usuario("Mick",0,943)
 ]
 
 def obteruser(nome):
@@ -26,10 +26,6 @@ def obteruser(nome):
             return usuario
 
 gabriel = obteruser("Gabriel")
-miley = obteruser("Miley")
+mick = obteruser("Mick")
 
-print(gabriel.saldo)
-
-gabriel.saldo  += 100
-
-print(gabriel.saldo)
+print(mick)
