@@ -4,13 +4,25 @@ msgmenu = """
 [s] Sacar 
 [t] Transferir
 [e] Extrato
-[bah] Sair
+[saldo] Ver Saldo
+[sair] Sair
 """
+
+msgmenucriar =  """
+[c] Criar Conta
+[l] Logar
+"""
+
+usuarios = [
+
+]
+
 class Usuario:
-    def __init__(self,name,saldo,key,extrato,numerosaque):
+    def __init__(self,name,senha,cpf,saldo,extrato,numerosaque):
         self.name = name
+        self.senha = senha
+        self.cpf = cpf
         self.saldo = saldo
-        self.key = key
         self.extrato = extrato
         self.numerosaque = numerosaque
 
@@ -25,7 +37,8 @@ class Usuario:
     def transferencia(self,quantia,destino):
         if self.saldo > 0 and self.saldo >= quantia and quantia > 0:
             for usuario in usuarios:
-                if usuario.key == destino:
+                if usuario.cpf == str(destino):
+                    print("é")
                     self.saldo -= quantia
                     usuario.saldo += quantia
                     self.extrato += f"Transferido: {quantia} para {usuario.name}\n"
@@ -36,27 +49,57 @@ class Usuario:
 
 
     def saque(self,quantia):
-        if self.saldo >= quantia:
+        if self.saldo >= quantia and self.numerosaque < 3:
             self.saldo -= quantia
             self.extrato += f"Saque efetuado de: {quantia}\n"
             self.numerosaque += 1
         else:
             print("Saldo insuficiente")
-
-
-usuarios = (
-Usuario("Gabriel",100,123,"",0),
-Usuario("Mick",0,943,"",0)
-)
+        
+    def saldover(self):
+        print(self.saldo)
 
 def obteruser(nome):
     for usuario in usuarios:
         if usuario.name == nome:
             return usuario
 
-gabriel = obteruser("Gabriel")
-mick = obteruser("Mick")
+def checarcpf(bah):
+    for usuario in usuarios:
+        if usuario.cpf == bah:
+            return 
+        else: 
+            return True
+        
+def checarsenha(nome,senhaa):
+    usuario = obteruser(nome)
+    if usuario.senha == senhaa:
+        return True
+    else:
+        return
 
+def criarconta():
+    menu = "Digite seu nome: "
+    nome = input(menu)
+    menu = "Digite sua senha: "
+    senha = input(menu)
+    menu = "Digite seu cpf: "
+    cpf = input(menu)        
+    numerodousuario = len(usuarios) + 1
+    numerodousuario = Usuario(nome,senha,cpf,0,"",0)
+    usuarios.append(numerodousuario)
+    return nome
+
+def logar():
+    menu = "Digite seu nome: "
+    nome = input(menu)
+    menu = "Digite sua senha: "
+    senha = input(menu)
+    if obteruser(nome) != None:
+        if checarsenha(nome,senha):
+            return nome
+    print("Senha ou Nome Invalidos")
+    return
 
 while True:
     if login != None:
@@ -85,8 +128,17 @@ while True:
                 login.transferencia(valor,chave)
         elif opcao == "e":
            print(login.extrato)
-        elif opcao == "bah":
-            break
+        elif opcao == "saldo":
+           login.saldover()
+        elif opcao == "sair":
+            login = None
     else:
-        menu = "Digite seu Nome: "
-        login = obteruser(input(menu))
+        menu = msgmenucriar
+        opcao = input(menu)
+        if opcao == "c":
+           print(usuarios)
+           nome = criarconta()
+           login = obteruser(nome)
+        elif opcao == "l":
+            nome = logar()
+            login = obteruser(nome)
